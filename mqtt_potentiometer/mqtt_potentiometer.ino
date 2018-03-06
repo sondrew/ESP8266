@@ -29,7 +29,9 @@ const int potPin = A0;            // Pin of connected analog potentiometer
 int val = 0;                      // Store value for potentiometer (0-1023)
 float conversion = 1024/180;      // Servo needs to receive values in degrees - this servo rotates 180 degrees
 int servoVal = 0;                 // Store value from potentiomenter to publish to servo
-//int oldServoVal = 0;            // Only needed if you want to publish message on potentiometer change
+//int oldServoVal = 0;            // Uncomment if you want to publish message on value change instead of by interval
+//const int minPublishInterval =  // Define this as minimum interval (ms) if you want to publish data on value change
+
 
 void setup() {
   Serial.begin(115200);                // Default ESP8266 baud rate
@@ -116,9 +118,12 @@ void loop() {
 
   /*  Alternatively, instead of sending a value every x millisec,
    *  you can send a value on change. Though this may cause a slight
-   *  hiccup, as your device will publish A LOT of data.
+   *  hiccup, as your device will publish A LOT of data. In this case
+   *  I recommend using a minimum publishing interval as well.
+   */
 
-  if (servoVal != oldServoVal) {
+  /*
+  if ((servoVal != oldServoVal) && (now - lastMsg > minPublishInterval)) {
     lastMsg = now;
     snprintf (msg, 75, "%ld", servoVal);
     Serial.print("Publish message: ");
@@ -126,6 +131,5 @@ void loop() {
     client.publish("servo", msg);
     oldServoVal = servoVal;
   }
-  
   */
 }
