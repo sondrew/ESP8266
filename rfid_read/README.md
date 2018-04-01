@@ -8,9 +8,9 @@ as it is much simpler to store and compare.
 
 I've tested this example and got it working well on both ESP8266 and ESP8266MOD. 
 
-This example is an simple RFID UID read, if you want to do more, check out my other RFID examples:
-[rfid_read_store](/tree/master/rfid_simple_read) - read, store and recognize stored tags
-[rfid_mqtt](/tree/master/rfid_mqtt) -  read and store tags, publish read tags with MQTT
+This example is an simple RFID UID read, if you want to do more, check out my other RFID examples:  
+* [rfid_read_store](/tree/master/rfid_simple_read) - read, store and recognize stored tags  
+* [rfid_mqtt](/tree/master/rfid_mqtt) -  read and store tags, publish read tags with MQTT  
 
 ## Prerequisite
 Install the library 'MFRC522' by 'GithubCommunity' in the Arduino IDE, 
