@@ -6,22 +6,22 @@
  * as is much simpler to store and compare.
  * 
  * This example is an easy RFID UID read, if you want to store tags and 
- * recognize stored tags, check out my other example
+ * recognize stored tags, check out my example rfid_read_store
  * 
  * Install the library 'MFRC522' by 'GithubCommunity' in the Arduino IDE, 
  * or download here: https://github.com/miguelbalboa/rfid
  * 
  * 
  * -----------------------------------------------------
- *             RFID reader  Arduino       NodeMCU
- *             (MFRC522)    Uno/101       (ESP8266)
- * Signal      Pin          Pin           Pin      
+ *             RFID reader  NodeMCU       Arduino
+ *             (MFRC522)    (ESP8266)     Uno/101
+ * Signal      Pin          Pin           Pin    
  * -----------------------------------------------------
- * RST/Reset   RST          9             D3        
- * SPI SS      SDA (SS)     10            D8       
- * SPI MOSI    MOSI         11            D7       
- * SPI MISO    MISO         12            D6       
- * SPI SCK     SCK          13            D5       
+ * RST/Reset   RST          D3            9      
+ * SPI SS      SDA (SS)     D8            10     
+ * SPI MOSI    MOSI         D7            11     
+ * SPI MISO    MISO         D6            12     
+ * SPI SCK     SCK          D5            13     
  *
  * Pin connections for all Arduino boards: https://www.arduino.cc/en/Reference/SPI
  * 
@@ -38,7 +38,7 @@
 MFRC522 rfid(SS_PIN, RST_PIN);      // Create MFRC522 instance
 
 unsigned long lastTagId;            // Last tag to be scanned (decimal UID value)
-const int DELAY_AFTER_READ = 1000;  // Waiting time after card is read to avoid multiple reads
+const int DELAY_AFTER_READ = 1000;  // Waiting time after tag is read to avoid multiple reads
 
 void setup() {
   Serial.begin(115200);             // Initialize serial communications
@@ -50,14 +50,13 @@ void setup() {
 }
 
 void loop() { 
-
-  // Look for new cards
+  // Look for new tags
   if ( ! rfid.PICC_IsNewCardPresent()) {
     delay(50);
     return;
   }
 
-  // Select one of the cards
+  // Select one of the tags
   if ( ! rfid.PICC_ReadCardSerial()) {
     delay(50);
     return;
@@ -76,12 +75,12 @@ void loop() {
   }
   
   // Print UID of tag to Serial as hex values
-  Serial.print("Card hex UID: ");
+  Serial.print("Tag hex UID: ");
   dump_byte_array(rfid.uid.uidByte, rfid.uid.size);
   Serial.println();
 
   // Print UID of tag to Serial as decimal values
-  Serial.print("Card dec UID:  ");
+  Serial.print("Tag dec UID:  ");
   Serial.println(newTagId);
 
   // Declare new scanned tag as last scanned tag
@@ -95,12 +94,14 @@ void loop() {
    * rfid.PICC_HaltA();
   */
   
-  // Don't read same card multiple times within given time
+  // Don't read same tag multiple times within given time
   delay(DELAY_AFTER_READ);
 }
 
 
-// Helper routine to dump a byte array as hex values to Serial
+/* 
+ * Helper routine to dump a byte array as hex values to Serial 
+ */
 void dump_byte_array(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
@@ -108,7 +109,10 @@ void dump_byte_array(byte *buffer, byte bufferSize) {
   }
 }
 
-// Returns a long integer for the tag's UID which is easily stored and compared
+
+/*
+ *  Return a long integer for the tag's UID which is easily stored and compared
+ */
 unsigned long getDecUid(byte* byteArray) {
   unsigned long hex_num;
   unsigned long first = byteArray[0];
