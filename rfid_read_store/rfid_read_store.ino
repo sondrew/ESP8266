@@ -91,8 +91,10 @@ void loop() {
     return;
   }
 
+  // Read decimal UID value of tag
   unsigned long newTagId = getDecUid(rfid.uid.uidByte);
 
+  // Check if tag is same as last one read
   if (lastTagId == newTagId) {
     Serial.println("Previous tag read again");
     delay(DELAY_AFTER_READ);

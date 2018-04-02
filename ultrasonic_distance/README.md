@@ -11,7 +11,7 @@ Pretty straight forward. Trigger and echo can be connected to any digital pin, p
 | Ultrasonic sensor<br>(HC-SR04) | ESP8266MOD<br>(5v version) |
 |--|--|
 | Vcc | 5v |
-| Ground (Gnd) | G |
+| Ground (Gnd) | G (Gnd) |
 | Trigger (Trig) | D1 [*] |
 | Echo | D2 [*] |
 
